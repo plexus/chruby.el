@@ -123,3 +123,5 @@ This path gets added to the PATH variable and the exec-path list.")
 	     'chruby-current-ruby-binary-path
 	     (list (concat gemhome "/bin") (concat ruby-root "/bin"))))
 	)))))
+
+(provide 'chruby)
