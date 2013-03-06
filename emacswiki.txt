@@ -1,0 +1,10 @@
+I'm getting errors when trying to add this to EmacsWiki... saving backup here to try again later. 
+http://www.emacswiki.org/emacs/ChrubyEl/
+
+= chruby.el =
+
+An Emacs analog/complement to [https://github.com/postmodern/chruby chruby], to change the current Ruby.
+
+http://github.com/arnebrasseur/chruby.el
+
+chruby.el does not depend on chruby (the shell script) to be present. It merely follows the same conventions for locating and activating rubies and gems. It sets all the necessary environment variables (PATH, GEM_HOME, GEM_PATH, BUNDLE_PATH, etc) within Emacs, so Ruby subprocesses like xmpfilter or el4ruby use the right executable.
