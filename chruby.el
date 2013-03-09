@@ -111,7 +111,7 @@ This path gets added to the PATH variable and the exec-path list.")
        (list (concat ruby-root "/bin"))))
     (let ((engine_version_gempath (split-string
 				   (shell-command-to-string
-				    "ruby -e 'print [(defined?(RUBY_ENGINE) ? RUBY_ENGINE : 'ruby'), (RUBY_VERSION), (Gem.default_dir.inspect)].join(%[##])'") "##")))
+				    "ruby -rubygems -e 'print [(defined?(RUBY_ENGINE) ? RUBY_ENGINE : 'ruby'), (RUBY_VERSION), (Gem.default_dir.inspect)].join(%[##])'") "##")))
       (let ((engine (first engine_version_gempath))
 	    (version (second engine_version_gempath))
 	    (gemroot (third engine_version_gempath)))
