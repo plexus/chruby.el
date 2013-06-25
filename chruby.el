@@ -60,7 +60,7 @@ This path gets added to the PATH variable and the exec-path list.")
   (mapcan
    'chruby-collect-rubies
    (list "/opt/rubies/"
-	 (concat (getenv "HOME") ".rubies")
+	 (concat (file-name-as-directory (getenv "HOME")) ".rubies")
 	 (getenv "RUBIES_DIR")
 	 "~/opt/rubies")))
 
