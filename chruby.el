@@ -73,8 +73,8 @@
   (first
    (delq nil
          (mapcar
-          '(lambda (ruby)
-             (and (string-match name ruby) ruby))
+          (lambda (ruby)
+            (and (string-match name ruby) ruby))
           (chruby-rubies)))))
 
 (defun chruby-change-path (new-binaries)
