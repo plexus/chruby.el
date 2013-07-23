@@ -135,7 +135,7 @@
 ruby version, and the gem path"
   (split-string
    (shell-command-to-string
-    "ruby -rubygems -e 'print [(defined?(RUBY_ENGINE) ? RUBY_ENGINE : 'ruby'), (RUBY_VERSION), (Gem.default_dir.inspect)].join(%[##])'") "##"))
+    "ruby -rubygems -e 'print [(defined?(RUBY_ENGINE) ? RUBY_ENGINE : %[ruby]), (RUBY_VERSION), (Gem.default_dir.inspect)].join(%[##])'") "##"))
 
 (defun chruby-util-basename (path)
   (file-name-nondirectory (directory-file-name path)))
