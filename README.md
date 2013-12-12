@@ -12,3 +12,7 @@ In fact just like Chruby it is extremely lightweight, it merely follows the same
 Some of the code was taken from [rvm.el](https://github.com/senny/rvm.el) by Yves Senn, however any violations of good style are entirely mine.
 
 There is currently no support for Chruby's 'auto' functionality.
+
+Copyright 2013-2014 Arne Brasseur
+
+For license details refer to the LICENSE file.
