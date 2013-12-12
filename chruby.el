@@ -106,6 +106,7 @@
     (setenv "GEM_PATH" "")
     (setenv "BUNDLE_PATH" "")))
 
+;;;###autoload
 (defun chruby (&optional name)
   "If name is given, activate the given Ruby. Else, return the currently
  activated Ruby"
@@ -145,3 +146,5 @@ ruby version, and the gem path"
   chruby-current-ruby-name)
 
 (provide 'chruby)
+
+;;; chruby.el ends here
