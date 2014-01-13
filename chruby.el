@@ -111,7 +111,10 @@
   "If name is given, activate the given Ruby. Else, return the currently
  activated Ruby"
   (if name
-      (chruby-activate name)
+      (if (not (string= "system" name))
+          (chruby-activate name)
+        (chruby-change-path (list))
+        (chruby-set-gemhome nil nil))
     (chruby-current)))
 
 (defun chruby-activate (name)
