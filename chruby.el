@@ -111,9 +111,11 @@
   "If name is given, activate the given Ruby. Else, return the currently
  activated Ruby"
   (if name
-      (if (string= "system" name)
-          (chruby-reset)
-          (chruby-activate name))
+      (progn
+        (setenv "RUBYOPT" "")
+        (if (string= "system" name)
+            (chruby-reset)
+          (chruby-activate name)))
     (chruby-current)))
 
 (defun chruby-reset ()
