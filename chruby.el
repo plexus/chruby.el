@@ -111,8 +111,16 @@
   "If name is given, activate the given Ruby. Else, return the currently
  activated Ruby"
   (if name
-      (chruby-activate name)
+      (progn
+        (setenv "RUBYOPT" "")
+        (if (string= "system" name)
+            (chruby-reset)
+          (chruby-activate name)))
     (chruby-current)))
+
+(defun chruby-reset ()
+  (chruby-change-path (list))
+  (chruby-set-gemhome nil nil))
 
 (defun chruby-activate (name)
   "Activate the given Ruby"
