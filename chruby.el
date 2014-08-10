@@ -125,20 +125,21 @@
 (defun chruby-activate (name)
   "Activate the given Ruby"
   (let ((ruby-root (chruby-find name)))
-    (setq chruby-current-ruby-name (chruby-util-basename ruby-root))
+    (if ruby-root
+        (progn
+          (setq chruby-current-ruby-name (chruby-util-basename ruby-root))
+          (chruby-change-path (list (concat ruby-root "/bin")))
 
-    (chruby-change-path (list (concat ruby-root "/bin")))
-
-    (let ((engine_version_gempath (chruby-query-version)))
-      (let ((engine (first engine_version_gempath))
-            (version (second engine_version_gempath))
-            (gemroot (third engine_version_gempath)))
-        (let ((gemhome (concat (getenv "HOME") "/.gem/" engine "/" version)))
-          (chruby-set-gemhome gemhome
-                              (concat gemhome ":" gemroot))
-          (chruby-change-path
-           (list (concat gemhome "/bin") (concat ruby-root "/bin"))))))))
-
+          (let ((engine_version_gempath (chruby-query-version)))
+            (let ((engine (first engine_version_gempath))
+                  (version (second engine_version_gempath))
+                  (gemroot (third engine_version_gempath)))
+              (let ((gemhome (concat (getenv "HOME") "/.gem/" engine "/" version)))
+                (chruby-set-gemhome gemhome
+                                    (concat gemhome ":" gemroot))
+                (chruby-change-path
+                 (list (concat gemhome "/bin") (concat ruby-root "/bin")))))))
+      )))
 (defun chruby-query-version ()
   "Shell out to Ruby to find out the current engine (ruby, jruby, etc), the
 ruby version, and the gem path"
