@@ -125,21 +125,20 @@
 (defun chruby-activate (name)
   "Activate the given Ruby"
   (let ((ruby-root (chruby-find name)))
-    (if ruby-root
-        (progn
-          (setq chruby-current-ruby-name (chruby-util-basename ruby-root))
-          (chruby-change-path (list (concat ruby-root "/bin")))
+    (when ruby-root
+      (setq chruby-current-ruby-name (chruby-util-basename ruby-root))
+      (chruby-change-path (list (concat ruby-root "/bin")))
 
-          (let ((engine_version_gempath (chruby-query-version)))
-            (let ((engine (first engine_version_gempath))
-                  (version (second engine_version_gempath))
-                  (gemroot (third engine_version_gempath)))
-              (let ((gemhome (concat (getenv "HOME") "/.gem/" engine "/" version)))
-                (chruby-set-gemhome gemhome
-                                    (concat gemhome ":" gemroot))
-                (chruby-change-path
-                 (list (concat gemhome "/bin") (concat ruby-root "/bin")))))))
-      )))
+      (let ((engine_version_gempath (chruby-query-version)))
+        (let ((engine (first engine_version_gempath))
+              (version (second engine_version_gempath))
+              (gemroot (third engine_version_gempath)))
+          (let ((gemhome (concat (getenv "HOME") "/.gem/" engine "/" version)))
+            (chruby-set-gemhome gemhome
+                                (concat gemhome ":" gemroot))
+            (chruby-change-path
+             (list (concat gemhome "/bin") (concat ruby-root "/bin")))))))))
+
 (defun chruby-query-version ()
   "Shell out to Ruby to find out the current engine (ruby, jruby, etc), the
 ruby version, and the gem path"
@@ -153,6 +152,37 @@ ruby version, and the gem path"
 (defun chruby-current ()
   "Return the currently activated Ruby name"
   chruby-current-ruby-name)
+
+;; Pretty much borrowed from `rbenv.el`
+
+(defun chruby-use (ruby-version)
+  "choose what ruby you want to activate"
+  (interactive
+   (let ((picked-ruby (read-string "Ruby version: ")))
+     (list picked-ruby)))
+  (if (chruby-activate ruby-version)
+      (message (concat "[chruby] using " ruby-version))
+    (message (concat "[chruby] couldn't find " ruby-version))))
+
+(defun chruby-use-corresponding ()
+  "search for .ruby-version and activate the corresponding ruby"
+  (interactive)
+  (let ((version-file-path (chruby--locate-file ".ruby-version")))
+    (if version-file-path (chruby-use (chruby--read-version-from-file version-file-path))
+      (message "[chruby] could not locate .ruby-version"))))
+
+(defun chruby--replace-trailing-whitespace (text)
+  (replace-regexp-in-string "[[:space:]]\\'" "" text))
+
+(defun chruby--read-version-from-file (path)
+  (with-temp-buffer
+    (insert-file-contents path)
+    (chruby--replace-trailing-whitespace (buffer-substring-no-properties (point-min) (point-max)))))
+
+(defun chruby--locate-file (file-name)
+  "searches the directory tree for an given file. Returns nil if the file was not found."
+  (let ((directory (locate-dominating-file default-directory file-name)))
+    (when directory (concat directory file-name))))
 
 (provide 'chruby)
 
