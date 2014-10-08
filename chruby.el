@@ -42,6 +42,7 @@
 ;; (require 'chruby)
 ;; (chruby "ruby-1.9.3")
 
+(require 'cl-lib)
 
 (defvar chruby-current-ruby-binary-path nil
   "reflects the path to the current 'ruby' executable.
@@ -61,7 +62,7 @@
 
 (defun chruby-rubies ()
   "Find all Rubies in various places, returns a list of directories."
-  (mapcan
+  (cl-mapcan
    'chruby-collect-rubies
    (list "/opt/rubies/"
          (concat (file-name-as-directory (getenv "HOME")) ".rubies")
@@ -70,9 +71,9 @@
 
 (defun chruby-find (name)
   "Find the given ruby in the list of rubies"
-  (first
+  (cl-first
    (delq nil
-         (mapcar
+         (cl-mapcar
           (lambda (ruby)
             (and (string-match name ruby) ruby))
           (chruby-rubies)))))
@@ -82,7 +83,7 @@
          (mapconcat 'identity chruby-current-ruby-binary-path ":"))
         (new-binaries-for-path (mapconcat 'identity new-binaries ":")))
     (if (and chruby-current-ruby-binary-path
-             (not (string= (first chruby-current-ruby-binary-path) "/bin")))
+             (not (string= (cl-first chruby-current-ruby-binary-path) "/bin")))
         (progn
           (setenv "PATH" (replace-regexp-in-string
                           (regexp-quote current-binaries-for-path)
@@ -130,9 +131,9 @@
       (chruby-change-path (list (concat ruby-root "/bin")))
 
       (let ((engine_version_gempath (chruby-query-version)))
-        (let ((engine (first engine_version_gempath))
-              (version (second engine_version_gempath))
-              (gemroot (third engine_version_gempath)))
+        (let ((engine (cl-first engine_version_gempath))
+              (version (cl-second engine_version_gempath))
+              (gemroot (cl-third engine_version_gempath)))
           (let ((gemhome (concat (getenv "HOME") "/.gem/" engine "/" version)))
             (chruby-set-gemhome gemhome
                                 (concat gemhome ":" gemroot))
