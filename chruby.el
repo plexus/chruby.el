@@ -130,7 +130,7 @@
       (setq chruby-current-ruby-name (chruby-util-basename ruby-root))
       (chruby-change-path (list (concat ruby-root "/bin")))
 
-      (let ((engine_version_gempath (chruby-query-version)))
+      (let ((engine_version_gempath (chruby-query-version (concat ruby-root "/bin"))))
         (let ((engine (cl-first engine_version_gempath))
               (version (cl-second engine_version_gempath))
               (gemroot (cl-third engine_version_gempath)))
@@ -140,12 +140,12 @@
             (chruby-change-path
              (list (concat gemhome "/bin") (concat ruby-root "/bin")))))))))
 
-(defun chruby-query-version ()
+(defun chruby-query-version (ruby-bin)
   "Shell out to Ruby to find out the current engine (ruby, jruby, etc), the
 ruby version, and the gem path"
   (split-string
    (shell-command-to-string
-    "ruby -rubygems -e 'print [(defined?(RUBY_ENGINE) ? RUBY_ENGINE : %[ruby]), (RUBY_VERSION), (Gem.default_dir.inspect)].join(%[##])'") "##"))
+    (concat ruby-bin "/ruby -rubygems -e 'print [(defined?(RUBY_ENGINE) ? RUBY_ENGINE : %[ruby]), (RUBY_VERSION), (Gem.default_dir.inspect)].join(%[##])'")) "##"))
 
 (defun chruby-util-basename (path)
   (file-name-nondirectory (directory-file-name path)))
