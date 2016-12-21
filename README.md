@@ -7,7 +7,7 @@ Emacs support for Chruby. It works identical to the shell command, after placing
 (chruby "jruby-1.7.2")
 ````
 
-To run it from within emacs, you have to start and eval prompt using `M-:` (the Meta and colon keys), and then type `(chruby "jruby-1.7.2")` for example.
+Interactively, either call `M-x chruby-use` which will prompt for a ruby version, or `M-x chruby-use-corresponding` which tries to get the version from a `.ruby-version` file.
 
 In fact just like Chruby it is extremely lightweight, it merely follows the same conventions for finding rubies on your system.
 
