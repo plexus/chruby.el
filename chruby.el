@@ -161,7 +161,7 @@ ruby version, and the gem path"
 (defun chruby-use (ruby-version)
   "choose what ruby you want to activate"
   (interactive
-   (let ((picked-ruby (read-string "Ruby version: ")))
+   (let ((picked-ruby (completing-read "Ruby version: " (chruby--available-names))))
      (list picked-ruby)))
   (if (chruby-activate ruby-version)
       (message (concat "[chruby] using " ruby-version))
@@ -173,6 +173,10 @@ ruby version, and the gem path"
   (let ((version-file-path (chruby--locate-file ".ruby-version")))
     (if version-file-path (chruby-use (chruby--read-version-from-file version-file-path))
       (message "[chruby] could not locate .ruby-version"))))
+
+(defun chruby--available-names ()
+  "list of available ruby names without path, higher versions sorted first"
+  (reverse (mapcar 'chruby-util-basename (chruby-rubies))))
 
 (defun chruby--replace-trailing-whitespace (text)
   (replace-regexp-in-string "[[:space:]]\\'" "" text))
