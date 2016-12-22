@@ -6,8 +6,8 @@
 ;; URL: http://www.emacswiki.org/emacs/ChrubyEl
 ;; Version: 1.0
 ;; Created: 5 March 2013
-;; Keywords: ruby chruby
-;; EmacsWiki: ChrubyEl
+;; Keywords: languages
+;; Package-Requires: ((cl-lib "0.5"))
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -35,12 +35,14 @@
 ;;; Commentary:
 
 ;; The chruby function functions like the shell command, pass it the
-;; name of a Ruby such as 'ruby-1.9.3' or 'jruby-1.7.2'.
+;; name of a Ruby such as 'ruby-2.3.3' or 'jruby-1.7.2'.
 ;;
 ;; e.g.
 ;;
 ;; (require 'chruby)
-;; (chruby "ruby-1.9.3")
+;; (chruby "ruby-2.3.3")
+;;
+;; see the README for interactive usage.
 
 ;;; Code:
 
@@ -158,6 +160,7 @@ ruby version, and the gem path"
 
 ;; Pretty much borrowed from `rbenv.el`
 
+;;;###autoload
 (defun chruby-use (ruby-version)
   "choose what ruby you want to activate"
   (interactive
@@ -167,6 +170,7 @@ ruby version, and the gem path"
       (message (concat "[chruby] using " ruby-version))
     (message (concat "[chruby] couldn't find " ruby-version))))
 
+;;;###autoload
 (defun chruby-use-corresponding ()
   "search for .ruby-version and activate the corresponding ruby"
   (interactive)
