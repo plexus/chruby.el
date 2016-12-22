@@ -3,7 +3,7 @@
 ;; Copyright (C) 2013 Arne Brasseur
 
 ;; Author: Arne Brasseur <arne@arnebrasseur.net>
-;; URL: http://www.emacswiki.org/emacs/ChrubyEl
+;; URL: https://github.com/plexus/chruby.el
 ;; Version: 1.0
 ;; Created: 5 March 2013
 ;; Keywords: languages
