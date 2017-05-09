@@ -105,11 +105,9 @@
   (if (and gemhome gempath)
       (progn
         (setenv "GEM_HOME" gemhome)
-        (setenv "GEM_PATH" gempath)
-        (setenv "BUNDLE_PATH" gemhome))
+        (setenv "GEM_PATH" gempath))
     (setenv "GEM_HOME" "")
-    (setenv "GEM_PATH" "")
-    (setenv "BUNDLE_PATH" "")))
+    (setenv "GEM_PATH" "")))
 
 ;;;###autoload
 (defun chruby (&optional name)
